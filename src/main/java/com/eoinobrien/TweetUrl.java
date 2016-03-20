@@ -9,7 +9,6 @@ public class TweetUrl {
     String url;
     Date timestamp;
 
-    public TweetUrl(){}
     public TweetUrl(String url, Date timestamp){
         this.url = url;
         this.timestamp = timestamp;

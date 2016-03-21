@@ -13,6 +13,7 @@
 
 .gradle
 build/
+data/
 
 .DS_Store
 local.properties/

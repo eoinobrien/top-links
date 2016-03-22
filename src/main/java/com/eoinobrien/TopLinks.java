@@ -24,10 +24,10 @@ public class TopLinks {
         StringBuilder result = new StringBuilder();
 
         try {
-            URL url = new URL("https://stream.twitter.com/1.1/statuses/sample.json");
+            URL url = new URL("http://beta.api.eaglealpha.com/streams/dev/social_feeds.json");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("Authorization", System.getenv("TWITTER_OAUTH"));
+            conn.setRequestProperty("Authorization", System.getenv("EAGLE_ALPHA_API"));
 
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
@@ -63,11 +63,11 @@ public class TopLinks {
     public static ArrayList<TweetUrl> getUrlFromTweet(String jsonString) throws JSONException {
         JSONObject json = new JSONObject(jsonString);
         ArrayList<TweetUrl> tweetUrls = new ArrayList<>();
-        if (json.has("created_at") && json.getJSONObject("entities").has("urls")) {
+        if (json.has("created_at") && json.has("entities") && json.getJSONObject("entities").has("urls")) {
             Date tweetTimestamp = new Date(json.getLong("timestamp_ms"));
 
             for (Object urlObj : json.getJSONObject("entities").getJSONArray("urls")) {
-                tweetUrls.add(new TweetUrl(((JSONObject) urlObj).getString("expanded_url"), tweetTimestamp));
+                tweetUrls.add(new TweetUrl(((JSONObject) urlObj).getString("expandedUrl"), tweetTimestamp));
             }
         }
         return tweetUrls;

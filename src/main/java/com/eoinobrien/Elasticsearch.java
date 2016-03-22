@@ -42,10 +42,7 @@ public class Elasticsearch {
     }
 
     private boolean createIndex(String name) {
-
-        boolean indexExists = client.admin().indices().prepareExists(name).execute().actionGet().isExists();
-        logger.info("Index " + index + " exists: " + indexExists);
-        if (indexExists) {
+        if(checkIfIndexExists(name)){
             return true;
         }
 
@@ -53,6 +50,12 @@ public class Elasticsearch {
         CreateIndexResponse response = client.admin().indices().prepareCreate(name).execute().actionGet();
 
         return response.isAcknowledged();
+    }
+
+    public boolean checkIfIndexExists(String name){
+        boolean indexExists = client.admin().indices().prepareExists(name).execute().actionGet().isExists();
+        logger.info("Index " + index + " exists: " + indexExists);
+        return indexExists;
     }
 
     public boolean addMappingToType(String type) {
